@@ -86,9 +86,6 @@ jobs:
           pip3 install cargo-lambda
           cargo lambda --version
 
-      - name: Build resources
-        run: sam build --template ${SAM_TEMPLATE} --beta-features
-
       - name: Assume the testing pipeline user role
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -100,8 +97,10 @@ jobs:
           role-duration-seconds: 3600
           role-skip-session-tagging: true
 
-      - name: Deploy to testing account
+      - name: Build & Deploy to testing account
         run: |
+          sam build --template ${SAM_TEMPLATE} 
+            --beta-features
           sam deploy --stack-name ${TESTING_STACK_NAME} \
             --template packaged-testing.yaml \
             --capabilities CAPABILITY_IAM \
