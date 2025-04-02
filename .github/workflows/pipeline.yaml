@@ -119,8 +119,10 @@ jobs:
         with:
           use-installer: true
       
-      - name: Cargo Lambda
-        run: cargo lambda --version
+      - name: Install Cargo Lambda
+        run: |
+          pip3 install cargo-lambda
+          cargo lambda --version
 
       - name: Build resources
         run: sam build --template ${SAM_TEMPLATE} --beta-features
