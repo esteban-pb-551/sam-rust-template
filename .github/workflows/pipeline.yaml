@@ -13,7 +13,7 @@ env:
   PIPELINE_USER_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   PIPELINE_USER_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   PIPELINE_USER_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-  SAM_TEMPLATE: sam-app-dev/template.yaml
+  SAM_TEMPLATE: template.yaml
   TESTING_STACK_NAME: sam-app-dev
   TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::491085411627:role/aws-sam-cli-managed-dev-pipel-PipelineExecutionRole-LFxSLrr8Knur
   TESTING_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::491085411627:role/aws-sam-cli-managed-dev-p-CloudFormationExecutionRo-8sNu6GD8Gde0
@@ -81,7 +81,7 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: aws-actions/setup-sam@v2
         with:
           use-installer: true
@@ -114,13 +114,16 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: aws-actions/setup-sam@v2
         with:
           use-installer: true
+      
+      - name: Cargo Lambda
+        run: cargo lambda --version
 
       - name: Build resources
-        run: sam build --template ${SAM_TEMPLATE} --use-container --beta-features
+        run: sam build --template ${SAM_TEMPLATE} --beta-features
 
       - name: Assume the testing pipeline user role
         uses: aws-actions/configure-aws-credentials@v4
@@ -175,7 +178,7 @@ jobs:
     needs: [build-and-package]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: aws-actions/setup-sam@v2
         with:
           use-installer: true
@@ -210,7 +213,7 @@ jobs:
     needs: [deploy-testing]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           # trigger the integration tests here
 
@@ -222,7 +225,7 @@ jobs:
     # https://docs.github.com/en/actions/reference/environments
     # environment: <configured-environment>
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: aws-actions/setup-sam@v2
         with:
           use-installer: true
