@@ -31,7 +31,7 @@ Resources:
     Properties:
       CodeUri: ./rust_app   # Points to dir of Cargo.toml
       Handler: bootstrap    # Do not change, as this is the default executable name produced by Cargo Lambda
-      Runtime: provided.al2
+      Runtime: provided.al2023
       Architectures:
       - x86_64
       Events:
