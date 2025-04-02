@@ -99,7 +99,7 @@ jobs:
 
       - name: Build & Deploy to testing account
         run: |
-          sam build --template ${SAM_TEMPLATE} 
+          sam build --template ${SAM_TEMPLATE} \
             --beta-features
           sam deploy --stack-name ${TESTING_STACK_NAME} \
             --template packaged-testing.yaml \
