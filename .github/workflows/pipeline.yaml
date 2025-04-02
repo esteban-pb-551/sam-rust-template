@@ -102,7 +102,7 @@ jobs:
           sam build --template ${SAM_TEMPLATE} \
             --beta-features
           sam deploy --stack-name ${TESTING_STACK_NAME} \
-            --template packaged-testing.yaml \
+            --template .aws-sam/build/template.yaml \
             --capabilities CAPABILITY_IAM \
             --region ${TESTING_REGION} \
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
